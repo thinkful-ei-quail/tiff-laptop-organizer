@@ -1,26 +1,24 @@
 import React from 'react';
-import USCurrencyFormat from '../currencyFormat';
+import Item from './Item';
+import Total from '../Total';
 
-export default class Summary extends React.Component {
-  render() {
-    const summary = Object.keys(this.props.state.selected).map((feature, idx) => {
-      const featureHash = feature + '-' + idx;
-      const selectedOption = this.props.state.selected[feature];
-
+export default function Summary(props) {
       return (
-        <div className="summary__option" key={featureHash}>
-          <div className="summary__option__label">{feature} </div>
-          <div className="summary__option__value">{selectedOption.name}</div>
-          <div className="summary__option__cost">
-            {USCurrencyFormat.format(selectedOption.cost)}
-          </div>
-        </div>
-      );
-    });
-    return (
-        <>
-          {summary}
-        </>
-    )
-  }
+        <section className="main__summary">
+			<h2>Your cart</h2>
+			{Object.keys(props.selected).map((feature, idx) => {
+				const featureHash = feature + "-" + idx;
+				const selectedOption = props.selected[feature];
+				return (
+					<Item
+						key={featureHash}
+						name={feature}
+						cost={selectedOption.cost}
+						option={selectedOption.name}
+					/>
+				);
+			})}
+			<Total total={props.total} selected={props.selected} />
+		</section>
+	);
 }
